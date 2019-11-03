@@ -1,0 +1,62 @@
+<div class="modal fade" id="modal-lecture-task" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 class="lecture-title"></h3>
+                <ul class="lecture-info">
+                    <li class="lecture-time">
+                        <i class="material-icons ic-lecture-info">access_alarm</i>
+                        <span></span>
+                    </li>
+                    <li class="lecture-code">
+                        <i class="material-icons ic-lecture-info">code</i>
+                        <span></span>
+                    </li>
+                    <li class="lecture-professor">
+                        <i class="material-icons ic-lecture-info">school</i>
+                        <span></span>
+                    </li>
+                    <li class="lecture-location">
+                        <i class="material-icons ic-lecture-info">business</i>
+                        <span></span>
+                    </li>
+                </ul>
+                <div class="lecture-description">
+                    <p class="txt-description">본 강의에서는 JSP를 이용한 웹 기반 프로그래밍 기초 및 응용기술에 대해 학습합니다. 특히 실습 위주의 수업으로 프로그래밍 스킬 향상 및
+                        실무 능력을 갖출 수 있도록 합니다.
+                    </p>
+                </div>
+
+                <div class="lecture-memo">
+                    <h5 class="memo-header">메모</h5>
+                    <ul>
+						<!-- submit form for loading memos -->
+						<form id="load_memos" action="/load_memos" accept-charset="UTF-8" data-remote="true" method="post">
+							<input type="hidden" id="input_load_memos" name="course_id" value="">
+						</form>
+						<%#= render :partial => "home/memo", collection: @courses.first.memos %>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="left">
+                    <button class="btn btn-light-primary" type="button" data-toggle="popover"
+                            data-trigger="click" data-placement="right" data-html="true">
+                        메모 등록
+                    </button>
+                </div>
+                <div class="right">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">확인</button>
+					<form action="/delete" data-remote="true" method="post">
+						<button type="submit" class="btn btn-danger" id="delete_course" name="course_id" value="" >과목 삭제하기</button>
+					</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

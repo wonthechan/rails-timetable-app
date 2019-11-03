@@ -1,0 +1,42 @@
+<div class="modal fade" id="modal-lecture-info" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 class="lecture-title"></h3>
+                <ul class="lecture-info">
+                    <li class="lecture-time">
+                        <i class="material-icons ic-lecture-info">access_alarm</i>
+                        강의 시간 : <span></span>
+                    </li>
+                    <li class="lecture-code">
+                        <i class="material-icons ic-lecture-info">code</i>
+                        <span></span>
+                    </li>
+                    <li class="lecture-professor">
+                        <i class="material-icons ic-lecture-info">school</i>
+                        <span></span>
+                    </li>
+                    <li class="lecture-location">
+                        <i class="material-icons ic-lecture-info">business</i>
+                        <span></span>
+                    </li>
+                </ul>
+                <div class="lecture-description">
+                    <p class="txt-description">강의 설명
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
+				<form action="/register" method="post">
+                    <button type="submit" class="btn btn-primary" id="register_course" name="course_id" value="" >과목 등록하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

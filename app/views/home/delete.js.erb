@@ -1,0 +1,4 @@
+// 현재 보여지는 모달을 숨긴다.
+$('#modal-lecture-task').modal('hide');
+// 시간표에 표시된 강의를 지운다.
+$('li[class*=lecture-time][data-id=<%=@target.id%>]').remove()

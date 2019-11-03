@@ -1,0 +1,99 @@
+<div class="container-lecture">
+    <section class="header">
+        <a href="/"><h3 class="headline">시간표 만들기</h3></a>
+    </section>
+    <section class="section-nav">
+		<!-- Search form-->
+		<%= form_tag('result', method: "post", class: "form-search") do %> <%# method를 get방식으로 받아내며, parameter가 home#result로 넘어갈 예정. %>
+			<%= text_field_tag :search_text, "", class: 'form-control', placeholder: '강의 검색'%> <%# 검색 하고자 하는 단어를 입력받음, 이 떄 name은 [검색 단어] %>
+			<%= hidden_field_tag(:bulletin, "Course") %> <%# 모델 이름을 자동으로 받아냄 (name은 [bulletin], value 값에는 [모델 이름]이 들어감) %>
+			<button type="submit" class="btn btn-link" name="commit">
+				<i class="material-icons ic-search">search</i></span>
+			</button>
+			
+		<% end %>
+		
+        <%#= render 'home/list_courses' %>
+		<ul class="list-lecture">
+			<%= render :partial => "home/course", collection: @courses %>
+		</ul>
+		
+    </section>
+	    <section class="section-list">
+        <div class="container-xl">
+            <div class="table-schedule">
+                <div class="timeline">
+                    <ul>
+                        <li><span>09:00</span></li>
+                        <li><span>09:30</span></li>
+                        <li><span>10:00</span></li>
+                        <li><span>10:30</span></li>
+                        <li><span>11:00</span></li>
+                        <li><span>11:30</span></li>
+                        <li><span>12:00</span></li>
+                        <li><span>12:30</span></li>
+                        <li><span>13:00</span></li>
+                        <li><span>13:30</span></li>
+                        <li><span>14:00</span></li>
+                        <li><span>14:30</span></li>
+                        <li><span>15:00</span></li>
+                        <li><span>15:30</span></li>
+                        <li><span>16:00</span></li>
+                        <li><span>16:30</span></li>
+                        <li><span>17:00</span></li>
+                        <li><span>17:30</span></li>
+                        <li><span>18:00</span></li>
+                    </ul>
+                </div>
+
+                <div class="table-schedule-subject">
+                    <ul class="list-lecture-item">
+                        <li class="timeline-vertical">
+                            <div class="top-info today">
+                                <h4 class="day">Mon</h4>
+                            </div>
+                            <ul>
+                            </ul>
+                        </li>
+
+                        <li class="timeline-vertical">
+                            <div class="top-info">
+                                <h4 class="day">Tue</h4>
+                            </div>
+                            <ul>
+                            </ul>
+                        </li>
+
+                        <li class="timeline-vertical">
+                            <div class="top-info">
+                                <h4 class="day">Wed</h4>
+                            </div>
+                            <ul>
+                            </ul>
+                        </li>
+                        <li class="timeline-vertical">
+                            <div class="top-info">
+                                <h4 class="day">Thu</h4>
+                            </div>
+                            <ul>
+                            </ul>
+                        </li>
+
+                        <li class="timeline-vertical">
+                            <div class="top-info">
+                                <h4 class="day">Fri</h4>
+                            </div>
+                            <ul>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<%= render 'home/modal_lecture_info' %>
+<%= render 'home/modal_lecture_task' %>
+<%= render 'home/modal_register_memo' %>
+

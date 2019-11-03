@@ -1,0 +1,8 @@
+// 팝업 닫기
+$('[data-toggle="popover"]').popover('hide');
+// 현재 모달의 메모리스트에 추가
+$('.lecture-memo ul').append('<%= j render :partial => "home/memo", object: @memo %>')
+// 시간표 노티상에 추가
+$('li[class*=lecture-time][data-id=<%=@course.id%>] > a').append('<%= j render :partial => "home/memo_noti", object: @memo %>')
+// 변경 사항 적용을 위한 tooltip 초기화
+$('[data-toggle="tooltip"]').tooltip();

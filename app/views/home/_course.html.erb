@@ -1,0 +1,12 @@
+<li class="card-lecture" data-id=<%= course.id %>>
+	<a class="lecture-title" href="#"><%= course.lecture %></a>
+	<h6 class="lecture-time">
+		<i class="material-icons ic-lecture-info">access_time</i>
+		<span><%= course.start_time %>:00 - <%= course.end_time %>:00 | <%= course.dayofweek.split('').map { |a| "(#{a})" }.join(', ') %></span>
+	</h6>
+	<ul class="list-lecture-info">
+		<li class="lecture-code">교과목 코드 : <%= course.code %></li>
+		<li class="lecture-professor">담당 교수 : <%= course.professor %></li>
+		<li class="lecture-location">강의실 : <%= course.location %></li>
+	</ul>
+</li>

@@ -1,0 +1,12 @@
+<li class="memo-list" data-id=<%=memo.id%>>
+	<div class="memo-content" data-toggle="tooltip" data-placement="top" title="" data-original-title="<%=memo.content%>">
+		<span class="lecture-noti-title"><%=memo.title%></span>
+	</div>
+	<div class="memo-btn">
+		<form action="/delete_memo" data-remote="true" method="post">
+			<button type="submit" class="btn btn-link" id="delete_memo" name="memo_id" value="<%=memo.id%>">
+				<i class="material-icons ic-lecture-noti">delete</i>
+			</button>
+		</form>
+	</div>
+</li>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WC19</title>
+	<script src="https://static.codepen.io/assets/editor/live/console_runner-1df7d3399bdc1f40995a35209755dcfd8c7547da127f6469fd81e5fba982f6af.js"></script>
+	<script src="https://static.codepen.io/assets/editor/live/css_reload-5619dc0905a68b2e6298901de54f73cefe4e079f65a75406858d92924b4938bf.js"></script>
+	<meta charset="UTF-8">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+	<%= stylesheet_link_tag 'application', 'https://fonts.googleapis.com/icon?family=Material+Icons' %>
+  </head>
+  <body>
+  	<%= render "home/flash" %>
+    <%= yield %>
+	<footer>Coded by Yechan Lim.</footer>
+	<script id="rendered-js">
+		
+		$(document).ready(function(){
+			/* 요일 체크 (오늘 요일을 굵게 바꿈) */
+			today = new Date().getDay()
+			if(today >= 2 && today <= 5){
+				// 화요일에서 금요일 사이인 경우
+				$($('.timeline-vertical > div')[today-1]).attr('class', 'top-info today')
+			}
+			
+			/* 시간표 렌더링 */
+			var day_dict = {'월':0,'화':1,'수':2,'목':3,'금':4}
+			var iter = 1
+			<% @courses_d.each do |course| %>
+				<% diff = course.end_time - course.start_time %>
+				<% days = course.dayofweek.chars.to_a %>
+
+				var html = ""
+				if(<%=diff%> == 2){
+					html += "<li class=\"lecture-time two-hr hr-<%=course.start_time%>\" data-id=<%=course.id%> data-event=\"lecture-" + ('0'+iter).slice(-2) + "\">"
+				}else{
+					html += "<li class=\"lecture-time hr-<%=course.start_time%>\" data-id=<%=course.id%> data-event=\"lecture-" + ('0'+iter).slice(-2) + "\">"
+				}
+				html += "<a href=\'javascript:void(0);\'><div class=\"lecture-info\">"
+				html += "<h6 class=\"lecture-title\"><%=course.lecture%></h6><h6 class=\"lecture-location\"><%=course.location%></h6></div>"
+				// Memo
+				html_memo = ''
+				<% course.memos.each do |memo| %>
+					html_memo += '<div class=\"lecture-noti\" data-id=\"<%=memo.id%>\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"<%= memo.content %>\">'
+					html_memo += '<i class=\"material-icons ic-lecture-noti\">assignment</i>'
+					html_memo += '<span class=\"lecture-noti-title\"><%= memo.title %></span></div>'
+				<% end %>
+				
+				html += html_memo
+				html += '</a></li>'
+
+				<% for i in days%>
+				day_target = $('.timeline-vertical')[day_dict['<%=i%>']]
+				$(day_target).find('ul').append(html)
+				<% end %>
+
+				iter += 1
+			<% end %>
+		})
+		
+		/* 왼쪽 강의 리스트에서 강의를 클릭했을 때 보여지는 모달 처리 */
+		$('.card-lecture').click(function () {
+			modal_lec = $('#modal-lecture-info');
+			modal_lec.find('.lecture-title').text($(this).find('.lecture-title').text())
+			modal_lec.find('.lecture-time span').text($(this).find('.lecture-time span').text())
+			modal_lec.find('.lecture-code span').text($(this).find('.list-lecture-info .lecture-code').text())
+			modal_lec.find('.lecture-professor span').text($(this).find('.list-lecture-info .lecture-professor').text())
+			modal_lec.find('.lecture-location span').text($(this).find('.list-lecture-info .lecture-location').text())
+			/* 등록 버튼의 value 값을 course_id로 설정 */
+			modal_lec.find('#register_course').attr('value', $(this).attr('data-id'))
+			modal_lec.modal('show');
+		});
+		
+		/* 시간표에 있는 강의를 클릭했을 때 보여지는 모달 처리 */
+		$('ul.list-lecture-item').on('click', '.lecture-time a', function () {
+			modal_lec = $('#modal-lecture-task');
+			/* 강의 정보(교수명, 시간대, 위치)는 기존 강의리스트에서 갖지고 올 수 없다 (상태가 수시로 변하기 떄문)*/
+			/** 현재 클릭한 강의의 id값을 상위 태그를 조회하여 course_id에 저장한다 **/
+			course_id = $(this).closest('li').attr('data-id')
+			
+			/** 강의 컬럼 값들을 얻기 위해 course_id와 함께 ajax 요청 **/
+			$.ajax({
+				type: "POST",
+				url : '/get_target_course',
+				data : {
+					target_id: course_id
+				},
+				contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+				timeout: 5000,
+				success: function (data) {
+					modal_lec.find('.lecture-title').text(data.lecture)
+					modal_lec.find('.lecture-time span').text(data.start_time + ':00 - ' + data.end_time + ':00 | ' 
+						+ data.dayofweek.split('').map((v) => {return '('+v+')';}).join(', '))
+					modal_lec.find('.lecture-code span').text('교과목 코드 : ' + data.code)
+					modal_lec.find('.lecture-professor span').text('담당 교수 : ' + data.professor)
+					modal_lec.find('.lecture-location span').text('강의실 : ' + data.location)
+				},
+				error : function(data){
+					alert('Error in getting target course');
+				}
+			});
+			
+			// 메모 리스트 로딩 (ajax 요청)
+			$.ajax({
+				type: "POST",
+				url : '/load_memos',
+				data : {
+					target_id: course_id
+				},
+				contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+				timeout: 5000,
+				success: function (data) {
+					// 변경 사항 적용을 위한 tooltip 초기화
+					$('[data-toggle="tooltip"]').tooltip();
+				},
+				error : function(data){
+					alert('Error in getting target course');
+				}
+			});
+			
+			/* 메모 로딩 폼의 input value를 course_id로 설정 */
+			$('#input_load_memos').attr('value', course_id)
+			
+			/* 삭제 버튼의 value 값을 course_id로 설정 */
+			modal_lec.find('#delete_course').attr('value', course_id)			
+			modal_lec.modal('show');
+			
+			/* 메모 모달에 있는 등록 버튼의 value 값을 course_id로 설정 */
+			$('#register_memo').attr('value', course_id)
+		});
+		
+		/* 과목 등록 버튼을 누른 경우 */
+		$('#register_course').click(function () {
+		  // 모달 닫기
+		  $('#modal-lecture-info').modal('hide');
+		});
+		
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip();
+		});
+
+		$(function () {
+			$('[data-toggle="popover"]').popover({
+				container: 'body',
+				html: true,
+				placement: 'right',
+				sanitize: false,
+				content: function () {
+				return $("#PopoverContent").html();
+				}
+			});
+		});
+	</script>
+  </body>
+</html>
