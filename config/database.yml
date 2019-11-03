@@ -16,7 +16,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password: password
-  host: 127.0.0.1
+  host: mysql-server
 
 development:
   <<: *default
@@ -50,5 +50,4 @@ test:
 #
 production:
   <<: *default
-  adapter: postgresql
-  encoding: unicode
+  database: my_database
