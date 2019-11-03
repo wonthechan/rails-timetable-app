@@ -1,9 +1,8 @@
 class HomeController < ApplicationController
 	skip_before_action :verify_authenticity_token
-	
 	# 검색된 강좌들을 담고 있는 컬렉션 변수
 	$filtered = nil
-	# 항상 모든 강좌를 담고 있는 컬렉션 클래스 변수
+	# 모든 강좌를 담고 있는 컬렉션 클래스 변수
 	@@courses_all = Course.all
 	
 	def index
@@ -11,7 +10,6 @@ class HomeController < ApplicationController
 		
 		# 시간표에 등록된 강좌들만 담고 있는 변수 (시간표 그릴때 사용함)
 		@courses_d = Course.where("display = ?", true)
-		
 		if $filtered != nil
 			# $filtered가 인스턴스를 담고 있다면 해당 되는 강좌를 보여준다.
 			@courses = $filtered
