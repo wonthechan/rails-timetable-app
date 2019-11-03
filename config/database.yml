@@ -49,4 +49,5 @@ test:
 #
 production:
   <<: *default
-  database: my_database
+  adapter: postgresql
+  encoding: unicode
