@@ -3,11 +3,12 @@ class HomeController < ApplicationController
 	
 	# 검색된 강좌들을 담고 있는 컬렉션 변수
 	$filtered = nil
+	# 항상 모든 강좌를 담고 있는 컬렉션 클래스 변수
+	@@courses_all = Course.all
 	
 	def index
-		### 루트 페이지 로드시 이루어지는 과정 ##
-		# 항상 모든 강좌를 담고 있는 컬렉션 변수
-		@courses_all = Course.all
+		## 루트 페이지 로드시 이루어지는 과정 ##
+		
 		# 시간표에 등록된 강좌들만 담고 있는 변수 (시간표 그릴때 사용함)
 		@courses_d = Course.where("display = ?", true)
 		
@@ -17,7 +18,7 @@ class HomeController < ApplicationController
 			$filtered = nil
 		else
 			# $filtered가 초기화 되어 있는 경우 모든 강좌를 보여준다.
-			@courses = Course.all
+			@courses = @@courses_all
 		end
 	end
 		
@@ -75,6 +76,8 @@ class HomeController < ApplicationController
 		# 등록 해제 과정 (해당 강의의 display 값을 false로 변경한다.)
 		@target = Course.find(params[:course_id])
 		@target.display = false
+		# 해당 강의에 등록되어 있던 모든 메모가 초기화 된다.
+		@target.memos.clear
 		
 		# 등록 해제가 완료되면 delete.js.erb를 실행한다.
 		if @target.save
