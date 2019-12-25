@@ -6,7 +6,6 @@ A simple timetable application created with **Ruby on Rails**
 
 Try it live on https://chan-timetable.herokuapp.com (hosted on Heroku)
 ![](https://imgdb.in/ggIN.png)
-*Both Node.js and NPM should be installed in advance prior to the following instructions.*
 
 ### Features
 
