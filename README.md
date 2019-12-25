@@ -1,29 +1,23 @@
-<<<<<<< HEAD
-# README
+# rails-timetable-app
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple timetable application created with **Ruby on Rails**
 
-Things you may want to cover:
+## Demo
 
-* Ruby version
+Try it live on https://chan-timetable.herokuapp.com (hosted on Heroku)
+![](https://imgdb.in/ggIN.png)
+*Both Node.js and NPM should be installed in advance prior to the following instructions.*
 
-* System dependencies
+### Features
 
-* Configuration
+- Each lecture can be registered or deleted from a timetable area by a user.
+- All registered lectures can be displayed on a timetable area.
+- Search lectures on the left side.
+- Add memos as many as you want to the lectures on a timetable area.
 
-* Database creation
+### Environment
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-=======
-# 2019_Winter_Coding
-2019 윈터코딩: 2차 과제테스트(웹)
->>>>>>> 8ba6b47fb26bd00519bbf54fb3513cfa1f027dfe
+- Ubuntu 16.04
+- Ruby 2.4.0
+- Rails 5.2.3
+- MySQL 5.5.62
